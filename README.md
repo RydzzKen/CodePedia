@@ -11,8 +11,10 @@ Website tutorial coding gratis dengan HTML, CSS, JavaScript, Python, dan lainnya
 - 🔐 Login & Register dengan session
 - 📱 Responsive di HP & Desktop
 
-- ```STRUCTURE FOLDER
-- codepedia/
+## 📁 Struktur Folder
+
+```text
+CodePedia/
 ├── package.json
 ├── package-lock.json
 ├── server.js
@@ -45,9 +47,9 @@ Website tutorial coding gratis dengan HTML, CSS, JavaScript, Python, dan lainnya
 │   ├── progress.json
 │   └── activity.json
 │
-├── sessions/ 
-│
+├── sessions/
 └── node_modules/
+```
 
 ## 🚀 Cara Install & Jalankan
 
