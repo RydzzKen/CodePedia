@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - CodePedia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body style="background: linear-gradient(135deg, #2563eb, #1e40af);">
+    <div style="min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;">
+        <div class="card" style="max-width: 420px; width: 100%; padding: 40px 32px;">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <a href="/" style="font-size: 28px; font-weight: 700; color: var(--primary); text-decoration: none;">
+                    Code<span style="color: var(--text);">Pedia</span>
+                </a>
+                <h2 style="margin-top: 16px; font-size: 24px;">Selamat Datang Kembali</h2>
+                <p class="text-muted" style="font-size: 14px;">Masuk untuk lanjut belajar</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="admin@codepedia.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required />
+                </div>
+                <button type="submit" id="loginBtn" class="btn-primary" style="width: 100%;">Masuk</button>
+            </form>
+
+            <div id="loginMessage" style="margin-top: 16px; text-align: center; font-size: 14px;"></div>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-light);">
+                Belum punya akun? <a href="/register.html">Daftar sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LOAD AUTH.JS ===== -->
+    <script src="js/auth.js"></script>
+    
+    <!-- ===== LOGIN SCRIPT ===== -->
+    <script>
+        console.log('🟢 Login page loaded!');
+        
+        // Cek apakah elemen ada
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const message = document.getElementById('loginMessage');
+        
+        console.log('Form:', form);
+        console.log('Email:', emailInput);
+        console.log('Password:', passwordInput);
+        
+        // Cek apakah auth.js sudah ter-load
+        console.log('loginUser function:', typeof loginUser);
+        
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Mencegah reload halaman
+                console.log('🟢 Form submitted!');
+                
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                console.log('Email:', email);
+                console.log('Password length:', password.length);
+                
+                // Validasi sederhana
+                if (!email || !password) {
+                    message.innerHTML = `<span style="color: #dc2626;">❌ Email dan password harus diisi!</span>`;
+                    return;
+                }
+                
+                // Tampilkan loading
+                message.innerHTML = `<span style="color: #2563eb;">⏳ Memproses...</span>`;
+                
+                try {
+                    // Panggil fungsi login dari auth.js
+                    const result = await loginUser(email, password);
+                    console.log('Login result:', result);
+                    
+                    if (result.success) {
+                        message.innerHTML = `<span style="color: #16a34a;">✅ ${result.message}</span>`;
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 1500);
+                    } else {
+                        message.innerHTML = `<span style="color: #dc2626;">❌ ${result.message || 'Login gagal!'}</span>`;
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    message.innerHTML = `<span style="color: #dc2626;">❌ Terjadi kesalahan: ${error.message}</span>`;
+                }
+            });
+        } else {
+            console.error('❌ Form tidak ditemukan!');
+        }
+    </script>
+</body>
+</html>

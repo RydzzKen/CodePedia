@@ -1,0 +1,382 @@
+<!-- playground.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playground - CodePedia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 40px 0 30px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .toolbar select {
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .toolbar select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        /* ===== TOMBOL PLAYGROUND YANG DIPERBAIKI ===== */
+        .btn-playground {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-playground:hover {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-playground:active {
+            transform: scale(0.95);
+        }
+
+        #statusIndicator {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-left: auto;
+        }
+
+        .playground-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 40px;
+        }
+
+        .editor-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .editor-wrapper label,
+        .output-wrapper label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .editor-wrapper textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: #1e293b;
+            color: #f1f5f9;
+            resize: vertical;
+            tab-size: 2;
+            line-height: 1.6;
+            transition: border-color 0.2s;
+        }
+
+        .editor-wrapper textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .output-wrapper {
+            flex: 1;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            min-height: 200px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-wrapper label {
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .output-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 180px;
+            border: none;
+            background: white;
+            flex: 1;
+        }
+
+        .playground-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            padding: 20px;
+            gap: 16px;
+            background: #f8fafc;
+            overflow: auto;
+        }
+
+        .playground-container.fullscreen .editor-wrapper textarea {
+            min-height: 50vh;
+        }
+
+        .playground-container.fullscreen .output-wrapper {
+            min-height: 40vh;
+        }
+
+        .btn-close-fullscreen {
+            display: none;
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 10000;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-close-fullscreen:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .btn-close-fullscreen.visible {
+            display: block;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 24px 0;
+            margin-top: 40px;
+            border-radius: 30px 30px 0 0;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        @media (min-width: 992px) {
+            .playground-container {
+                flex-direction: row;
+                align-items: stretch;
+            }
+            
+            .editor-wrapper {
+                flex: 1;
+            }
+            
+            .editor-wrapper textarea {
+                min-height: 500px;
+            }
+            
+            .output-wrapper {
+                flex: 1;
+                min-height: 500px;
+            }
+
+            .playground-container.fullscreen .editor-wrapper textarea {
+                min-height: 70vh;
+            }
+
+            .playground-container.fullscreen .output-wrapper {
+                min-height: 70vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .playground-container {
+                flex-direction: column;
+            }
+            
+            .editor-wrapper textarea {
+                min-height: 200px;
+            }
+            
+            .output-wrapper {
+                min-height: 200px;
+            }
+
+            .toolbar {
+                gap: 6px;
+            }
+
+            .toolbar select,
+            .toolbar .btn-playground {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .btn-close-fullscreen {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+                top: 8px;
+                right: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toolbar select {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html">Tutorial</a></li>
+                <li><a href="/playground.html" class="active">Playground</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== PLAYGROUND ===== -->
+    <div class="page-header">
+        <div class="container">
+            <h1>💻 Playground</h1>
+            <p>Tulis dan uji kode HTML, CSS, JavaScript secara langsung</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <label style="font-weight: 600; font-size: 14px;">Template:</label>
+            <select id="templateSelect">
+                <option value="blank">Kosong</option>
+                <option value="hello">Hello World</option>
+                <option value="button">Tombol Interaktif</option>
+                <option value="card">Card Sederhana</option>
+                <option value="todo">To-Do List</option>
+            </select>
+            <button class="btn-playground" id="clearBtn">🗑️ Clear</button>
+            <button class="btn-playground" id="downloadBtn">⬇️ Download</button>
+            <button class="btn-playground" id="fullscreenBtn">⛶ Fullscreen</button>
+            <span id="statusIndicator">💾 Auto-save</span>
+        </div>
+
+        <!-- Editor & Output -->
+        <div class="playground-container" id="playgroundContainer">
+            <div class="editor-wrapper">
+                <label>✏️ Editor Kode</label>
+                <textarea id="codeEditor" spellcheck="false">
+&lt;!-- Tulis kode HTML, CSS, atau JavaScript di sini --&gt;
+
+&lt;h1&gt;Halo, CodePedia! 🚀&lt;/h1&gt;
+&lt;p&gt;Selamat mencoba playground ini&lt;/p&gt;
+
+&lt;style&gt;
+  h1 { 
+    color: #2563eb; 
+    text-align: center;
+    margin-top: 20px;
+  }
+  p { 
+    font-size: 18px; 
+    text-align: center;
+    color: #475569;
+  }
+&lt;/style&gt;
+
+&lt;script&gt;
+  console.log('Hello from CodePedia Playground!');
+&lt;/script&gt;
+                </textarea>
+            </div>
+            <div class="output-wrapper">
+                <label>👀 Hasil</label>
+                <iframe id="outputFrame"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <!-- ===== TOMBOL CLOSE FULLSCREEN ===== -->
+    <button class="btn-close-fullscreen" id="closeFullscreenBtn" title="Keluar Fullscreen">✕</button>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('open');
+            });
+        });
+    </script>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/playground.js"></script>
+</body>
+</html>

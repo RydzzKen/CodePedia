@@ -1,0 +1,31 @@
+[
+  {
+    "userId": 3,
+    "tutorialId": 5,
+    "completed": true,
+    "completedAt": "2026-08-27T07:00:15.649Z",
+    "saved": true,
+    "savedAt": "2026-08-27T07:00:16.513Z"
+  },
+  {
+    "userId": 1,
+    "tutorialId": 1,
+    "completed": true,
+    "completedAt": "2026-08-27T08:46:11.292Z",
+    "saved": false
+  },
+  {
+    "userId": 1,
+    "tutorialId": 3,
+    "completed": true,
+    "completedAt": "2026-08-28T00:54:42.422Z",
+    "saved": false
+  },
+  {
+    "userId": 1,
+    "tutorialId": 4,
+    "completed": false,
+    "saved": true,
+    "savedAt": "2026-08-28T01:13:35.734Z"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@codepedia.com",
+    "password": "admin123",
+    "role": "admin",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "name": "Ken",
+    "email": "ryzzxess@gmail.com",
+    "password": "Kensaputra",
+    "createdAt": "2026-08-27T06:12:27.375Z"
+  },
+  {
+    "id": 3,
+    "name": "Ken",
+    "email": "ridwanmptn1102@gmail.com",
+    "password": "ken123",
+    "createdAt": "2026-08-27T06:41:31.753Z"
+  },
+  {
+    "id": 4,
+    "name": "愛 | Ken👑",
+    "email": "KenSaputra@codepedia.com",
+    "password": "Kazuken",
+    "role": "user",
+    "createdAt": "2026-08-28T01:14:12.307Z"
+  }
+]

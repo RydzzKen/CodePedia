@@ -1,0 +1,127 @@
+[
+  {
+    "userId": 3,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T06:59:46.993Z"
+  },
+  {
+    "userId": 3,
+    "action": "✅ Menyelesaikan tutorial ID 5",
+    "timestamp": "2026-08-27T07:00:15.659Z"
+  },
+  {
+    "userId": 3,
+    "action": "💾 Menyimpan tutorial ID 5",
+    "timestamp": "2026-08-27T07:00:16.519Z"
+  },
+  {
+    "userId": 3,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-27T07:01:37.178Z"
+  },
+  {
+    "userId": 3,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T07:01:50.034Z"
+  },
+  {
+    "userId": 3,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T07:11:12.670Z"
+  },
+  {
+    "userId": 3,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-27T08:02:54.669Z"
+  },
+  {
+    "userId": 4,
+    "action": "📝 Mendaftar akun",
+    "timestamp": "2026-08-28T01:14:12.318Z"
+  },
+  {
+    "userId": 4,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-28T01:14:19.103Z"
+  },
+  {
+    "userId": 4,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-28T01:14:30.623Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T08:03:23.323Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-27T08:05:44.600Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T08:05:57.786Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-27T08:07:59.519Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T08:08:18.140Z"
+  },
+  {
+    "userId": 1,
+    "action": "✅ Menyelesaikan tutorial ID 1",
+    "timestamp": "2026-08-27T08:46:09.627Z"
+  },
+  {
+    "userId": 1,
+    "action": "✅ Menyelesaikan tutorial ID 1",
+    "timestamp": "2026-08-27T08:46:11.300Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-27T09:18:45.014Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-27T09:18:54.519Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-28T00:50:04.661Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-28T00:51:02.801Z"
+  },
+  {
+    "userId": 1,
+    "action": "✅ Menyelesaikan tutorial ID 3",
+    "timestamp": "2026-08-28T00:54:42.430Z"
+  },
+  {
+    "userId": 1,
+    "action": "💾 Menyimpan tutorial ID 4",
+    "timestamp": "2026-08-28T01:13:35.752Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔓 Logout",
+    "timestamp": "2026-08-28T01:13:52.806Z"
+  },
+  {
+    "userId": 1,
+    "action": "🔐 Login",
+    "timestamp": "2026-08-28T01:14:45.522Z"
+  }
+]

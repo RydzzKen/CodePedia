@@ -1,0 +1,301 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CodePedia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+        /* Dashboard Styles */
+        .page-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 40px 0 30px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .page-header strong {
+            color: #60a5fa;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card-dash {
+            background: white;
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card-dash:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .stat-card-dash .number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .stat-card-dash .label {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            transition: background 0.2s;
+        }
+
+        .activity-item:hover {
+            background: #f1f5f9;
+        }
+
+        .activity-item .action {
+            font-size: 14px;
+            color: #0f172a;
+        }
+
+        .activity-item .time {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state .btn-primary {
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        .section-title-dash {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0f172a;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 24px 0;
+            margin-top: 40px;
+            border-radius: 30px 30px 0 0;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .stat-card-dash {
+                padding: 16px 12px;
+            }
+
+            .stat-card-dash .number {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html">Tutorial</a></li>
+                <li><a href="/playground.html">Playground</a></li>
+                <li><a href="/dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="page-header">
+        <div class="container">
+            <h1>📊 Dashboard</h1>
+            <p>Selamat datang kembali, <strong id="userName">User</strong>!</p>
+        </div>
+    </div>
+
+    <div class="container" style="padding-bottom: 40px;">
+        <!-- Stats -->
+        <div class="stat-grid">
+            <div class="stat-card-dash">
+                <div class="number" id="completedCount">0</div>
+                <div class="label">Tutorial Selesai</div>
+            </div>
+            <div class="stat-card-dash">
+                <div class="number" id="savedCount">0</div>
+                <div class="label">Tutorial Disimpan</div>
+            </div>
+            <div class="stat-card-dash">
+                <div class="number" id="activityCount">0</div>
+                <div class="label">Total Aktivitas</div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <h2 class="section-title-dash">📖 Aktivitas Terakhir</h2>
+        <div class="stat-card-dash" id="activityList" style="padding: 24px; text-align: left;">
+            <div class="empty-state">
+                <p>⏳ Memuat aktivitas...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('open');
+            });
+        });
+
+        // ============================================
+        // LOAD DASHBOARD DATA
+        // ============================================
+        let currentUser = null;
+
+        async function loadDashboard() {
+            const status = await checkAuthStatus();
+            if (!status.loggedIn) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            currentUser = status.user;
+            document.getElementById('userName').textContent = currentUser.name;
+
+            await loadProgress();
+            await loadActivity();
+        }
+
+        async function loadProgress() {
+            try {
+                const response = await fetch(`/api/progress/${currentUser.id}`);
+                const progress = await response.json();
+
+                const completed = progress.filter(p => p.completed).length;
+                const saved = progress.filter(p => p.saved).length;
+
+                document.getElementById('completedCount').textContent = completed;
+                document.getElementById('savedCount').textContent = saved;
+                document.getElementById('activityCount').textContent = progress.length;
+
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        async function loadActivity() {
+            const container = document.getElementById('activityList');
+            
+            try {
+                const response = await fetch(`/api/activity/${currentUser.id}`);
+                const activities = await response.json();
+
+                if (activities.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <p>Belum ada aktivitas. Mulai belajar sekarang!</p>
+                            <a href="/tutorials.html" class="btn-primary" style="display: inline-block;">Mulai Belajar</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="activity-list">
+                        ${activities.map(a => `
+                            <div class="activity-item">
+                                <span class="action">${a.action}</span>
+                                <span class="time">${new Date(a.timestamp).toLocaleString('id-ID')}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Error loading activity:', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>❌ Gagal memuat aktivitas</p>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

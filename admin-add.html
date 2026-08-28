@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tambah Tutorial - Admin</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+        .form-group textarea {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 200px;
+        }
+        .form-group textarea#content {
+            min-height: 300px;
+        }
+        .preview-box {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 8px;
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html">Tutorial</a></li>
+                <li><a href="/playground.html">Playground</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/admin.html" class="active">Admin</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HEADER ===== -->
+    <div class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/admin.html">Admin</a> <span>/</span>
+                <a href="/admin-tutorials.html">Kelola Tutorial</a> <span>/</span>
+                <span id="pageTitle">Tambah Tutorial</span>
+            </div>
+            <h1 id="formTitle">➕ Tambah Tutorial Baru</h1>
+            <p>Isi form di bawah untuk menambahkan tutorial baru</p>
+        </div>
+    </div>
+
+    <!-- ===== FORM ===== -->
+    <div class="container" style="padding-bottom: 40px;">
+        <div class="card" style="padding: 32px;">
+            <form id="tutorialForm">
+                <!-- ID (hidden) -->
+                <input type="hidden" id="tutorialId" value="" />
+                
+                <!-- Judul -->
+                <div class="form-group">
+                    <label for="title">Judul Tutorial *</label>
+                    <input type="text" id="title" placeholder="Contoh: HTML Dasar untuk Pemula" required />
+                </div>
+                
+                <!-- Deskripsi -->
+                <div class="form-group">
+                    <label for="description">Deskripsi *</label>
+                    <textarea id="description" placeholder="Deskripsi singkat tentang tutorial ini" required></textarea>
+                </div>
+                
+                <!-- Kategori & Level -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label for="category">Kategori *</label>
+                        <select id="category" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="HTML">HTML</option>
+                            <option value="CSS">CSS</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Python">Python</option>
+                            <option value="PHP">PHP</option>
+                            <option value="Java">Java</option>
+                            <option value="Golang">Golang</option>
+                            <option value="Rust">Rust</option>
+                            <option value="Database">Database</option>
+                            <option value="DevOps">DevOps</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="level">Level</label>
+                        <select id="level">
+                            <option value="Pemula">Pemula</option>
+                            <option value="Menengah" selected>Menengah</option>
+                            <option value="Lanjutan">Lanjutan</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Durasi -->
+                <div class="form-group">
+                    <label for="duration">Durasi (menit)</label>
+                    <input type="number" id="duration" value="15" min="1" max="180" />
+                </div>
+                
+                <!-- Konten -->
+                <div class="form-group">
+                    <label for="content">Konten (HTML) *</label>
+                    <p style="font-size: 12px; color: var(--text-light); margin-bottom: 6px;">
+                        💡 Gunakan <strong>&lt;h3&gt;</strong> untuk sub-judul, 
+                        <strong>&lt;div class="code-block"&gt;</strong> untuk code block.
+                    </p>
+                    <textarea id="content" placeholder="Tulis konten tutorial dalam HTML..." required></textarea>
+                </div>
+                
+                <!-- Tombol -->
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary" id="submitBtn">💾 Simpan Tutorial</button>
+                    <button type="button" class="btn-secondary" onclick="window.location.href='/admin-tutorials.html'">Batal</button>
+                    <button type="button" class="btn-secondary" onclick="previewContent()">👁️ Preview</button>
+                </div>
+                
+                <div id="formMessage" style="margin-top: 16px; font-size: 14px;"></div>
+            </form>
+        </div>
+        
+        <!-- Preview -->
+        <div id="previewContainer" style="display: none; margin-top: 24px;">
+            <h3>👁️ Preview Konten</h3>
+            <div class="card" id="previewContent" style="padding: 24px; margin-top: 8px;"></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        // ============================================
+        // CEK ADMIN
+        // ============================================
+        async function checkAdminAccess() {
+            const status = await checkAuthStatus();
+            if (!status.loggedIn) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            if (status.user.role !== 'admin') {
+                alert('⚠️ Akses ditolak!');
+                window.location.href = '/dashboard.html';
+                return false;
+            }
+            return true;
+        }
+
+        // ============================================
+        // LOAD DATA UNTUK EDIT
+        // ============================================
+        async function loadTutorialForEdit() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            
+            if (!id) return;
+            
+            try {
+                const response = await fetch(`/api/tutorials/${id}`);
+                const tutorial = await response.json();
+                
+                if (tutorial.id) {
+                    document.getElementById('pageTitle').textContent = 'Edit Tutorial';
+                    document.getElementById('formTitle').textContent = '✏️ Edit Tutorial';
+                    document.getElementById('submitBtn').textContent = '💾 Update Tutorial';
+                    document.getElementById('tutorialId').value = tutorial.id;
+                    document.getElementById('title').value = tutorial.title || '';
+                    document.getElementById('description').value = tutorial.description || '';
+                    document.getElementById('category').value = tutorial.category || '';
+                    document.getElementById('level').value = tutorial.level || 'Menengah';
+                    document.getElementById('duration').value = tutorial.duration || 15;
+                    document.getElementById('content').value = tutorial.content || '';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Gagal memuat data tutorial');
+            }
+        }
+
+        // ============================================
+        // PREVIEW CONTENT
+        // ============================================
+        function previewContent() {
+            const content = document.getElementById('content').value;
+            const container = document.getElementById('previewContainer');
+            const preview = document.getElementById('previewContent');
+            
+            if (!content.trim()) {
+                alert('Konten masih kosong!');
+                return;
+            }
+            
+            container.style.display = 'block';
+            preview.innerHTML = content;
+        }
+
+        // ============================================
+        // SUBMIT FORM
+        // ============================================
+        document.getElementById('tutorialForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('tutorialId').value;
+            const title = document.getElementById('title').value.trim();
+            const description = document.getElementById('description').value.trim();
+            const category = document.getElementById('category').value;
+            const level = document.getElementById('level').value;
+            const duration = parseInt(document.getElementById('duration').value) || 15;
+            const content = document.getElementById('content').value;
+            const message = document.getElementById('formMessage');
+            
+            // Validasi
+            if (!title || !description || !category) {
+                message.innerHTML = '<span style="color: #dc2626;">❌ Judul, deskripsi, dan kategori wajib diisi!</span>';
+                return;
+            }
+            
+            const data = { title, description, category, level, duration, content };
+            
+            try {
+                const url = id ? `/api/admin/tutorials/${id}` : '/api/admin/tutorials';
+                const method = id ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    message.innerHTML = `<span style="color: #16a34a;">✅ ${result.message}</span>`;
+                    setTimeout(() => {
+                        window.location.href = '/admin-tutorials.html';
+                    }, 1500);
+                } else {
+                    message.innerHTML = `<span style="color: #dc2626;">❌ ${result.message}</span>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.innerHTML = '<span style="color: #dc2626;">❌ Terjadi kesalahan. Coba lagi.</span>';
+            }
+        });
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isAdmin = await checkAdminAccess();
+            if (isAdmin) {
+                await loadTutorialForEdit();
+            }
+        });
+    </script>
+</body>
+</html>

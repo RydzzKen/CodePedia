@@ -1,0 +1,119 @@
+/* ===== RESPONSIVE.CSS ===== */
+/* File ini berisi aturan khusus untuk tampilan mobile */
+
+/* ===== SMARTPHONE (≤ 480px) ===== */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    nav .logo {
+        font-size: 20px;
+    }
+
+    .page-header h1 {
+        font-size: 22px;
+    }
+
+    .page-header p {
+        font-size: 14px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    /* Grid 1 kolom di HP kecil */
+    .grid-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr !important;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* ===== TABLET (481px - 768px) ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* ===== FIX UNTUK TOUCH DEVICES ===== */
+@media (hover: none) {
+    /* Tombol lebih besar untuk sentuhan */
+    .btn-primary,
+    .btn-secondary,
+    .btn-nav {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 24px;
+    }
+
+    /* Hapus efek hover di touch */
+    .card:hover {
+        transform: none;
+    }
+
+    nav ul li a:hover {
+        background: none;
+        border-bottom: none;
+    }
+}
+
+/* ===== DARK MODE (opsional) ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0f172a;
+        --text: #f1f5f9;
+        --white: #1e293b;
+        --text-light: #94a3b8;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.5);
+        --primary-light: #1e3a5f;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        background: #0f172a;
+        border-color: #334155;
+        color: var(--text);
+    }
+
+    .form-group input:focus {
+        border-color: var(--primary);
+    }
+
+    .btn-secondary {
+        background: transparent;
+    }
+}

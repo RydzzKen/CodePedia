@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - CodePedia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html">Tutorial</a></li>
+                <li><a href="/playground.html">Playground</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/admin.html" class="active">Admin</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HEADER ===== -->
+    <div class="page-header">
+        <div class="container">
+            <h1>👑 Admin Panel</h1>
+            <p>Kelola tutorial, user, dan konten website</p>
+        </div>
+    </div>
+
+    <!-- ===== STATS ===== -->
+    <div class="container">
+        <div class="stats" id="adminStats">
+            <div class="stat-card">
+                <div class="number" id="totalTutorials">0</div>
+                <div class="label">Total Tutorial</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="totalUsers">0</div>
+                <div class="label">Total User</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="totalCategories">0</div>
+                <div class="label">Kategori</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MENU ADMIN ===== -->
+    <div class="container" style="padding-bottom: 40px;">
+        <div class="grid-2" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+            <a href="/admin-tutorials.html" class="card" style="text-decoration: none; color: inherit; text-align: center; padding: 32px 20px;">
+                <div style="font-size: 48px;">📚</div>
+                <h3>Kelola Tutorial</h3>
+                <p style="color: var(--text-light); font-size: 14px;">Tambah, edit, atau hapus tutorial</p>
+            </a>
+            <a href="/admin-add.html" class="card" style="text-decoration: none; color: inherit; text-align: center; padding: 32px 20px;">
+                <div style="font-size: 48px;">➕</div>
+                <h3>Tambah Tutorial</h3>
+                <p style="color: var(--text-light); font-size: 14px;">Buat tutorial baru dengan mudah</p>
+            </a>
+            <div class="card" style="text-align: center; padding: 32px 20px; opacity: 0.6;">
+                <div style="font-size: 48px;">👥</div>
+                <h3>Kelola User</h3>
+                <p style="color: var(--text-light); font-size: 14px;">(Coming Soon)</p>
+            </div>
+            <div class="card" style="text-align: center; padding: 32px 20px; opacity: 0.6;">
+                <div style="font-size: 48px;">📊</div>
+                <h3>Statistik</h3>
+                <p style="color: var(--text-light); font-size: 14px;">(Coming Soon)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        // ============================================
+        // CEK AKSES ADMIN
+        // ============================================
+        async function checkAdminAccess() {
+            const status = await checkAuthStatus();
+            if (!status.loggedIn) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            if (status.user.role !== 'admin') {
+                alert('⚠️ Akses ditolak! Halaman ini hanya untuk admin.');
+                window.location.href = '/dashboard.html';
+                return false;
+            }
+            return true;
+        }
+
+        // ============================================
+        // LOAD STATS
+        // ============================================
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/tutorials');
+                const tutorials = await response.json();
+                document.getElementById('totalTutorials').textContent = tutorials.length;
+                
+                // Hitung kategori unik
+                const categories = new Set(tutorials.map(t => t.category));
+                document.getElementById('totalCategories').textContent = categories.size;
+                
+                // Ambil total user (nanti dari API)
+                // Untuk sementara hardcode
+                document.getElementById('totalUsers').textContent = '?';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isAdmin = await checkAdminAccess();
+            if (isAdmin) {
+                loadStats();
+            }
+        });
+    </script>
+</body>
+</html>

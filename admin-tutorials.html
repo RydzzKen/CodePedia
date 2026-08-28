@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kelola Tutorial - Admin</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html">Tutorial</a></li>
+                <li><a href="/playground.html">Playground</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/admin.html" class="active">Admin</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HEADER ===== -->
+    <div class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/admin.html">Admin</a> <span>/</span> Kelola Tutorial
+            </div>
+            <h1>📚 Kelola Tutorial</h1>
+            <p>Semua tutorial yang tersedia di CodePedia</p>
+        </div>
+    </div>
+
+    <!-- ===== TOMBOL TAMBAH ===== -->
+    <div class="container" style="margin-bottom: 20px;">
+        <a href="/admin-add.html" class="btn-primary" style="display: inline-block;">➕ Tambah Tutorial</a>
+    </div>
+
+    <!-- ===== TABEL TUTORIAL ===== -->
+    <div class="container" style="padding-bottom: 40px;">
+        <div id="tutorialList" class="card" style="padding: 0; overflow: hidden;">
+            <div style="padding: 20px; text-align: center; color: var(--text-light);">
+                ⏳ Memuat tutorial...
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        // ============================================
+        // CEK ADMIN
+        // ============================================
+        async function checkAdminAccess() {
+            const status = await checkAuthStatus();
+            if (!status.loggedIn) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            if (status.user.role !== 'admin') {
+                alert('⚠️ Akses ditolak!');
+                window.location.href = '/dashboard.html';
+                return false;
+            }
+            return true;
+        }
+
+        // ============================================
+        // LOAD TUTORIALS
+        // ============================================
+        async function loadTutorials() {
+            const container = document.getElementById('tutorialList');
+            
+            try {
+                const response = await fetch('/api/tutorials');
+                const tutorials = await response.json();
+                
+                if (tutorials.length === 0) {
+                    container.innerHTML = `
+                        <div style="padding: 40px 20px; text-align: center;">
+                            <p style="color: var(--text-light);">Belum ada tutorial. <a href="/admin-add.html">Tambah sekarang</a></p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <thead style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                                <tr>
+                                    <th style="padding: 12px 16px; text-align: left;">ID</th>
+                                    <th style="padding: 12px 16px; text-align: left;">Judul</th>
+                                    <th style="padding: 12px 16px; text-align: left;">Kategori</th>
+                                    <th style="padding: 12px 16px; text-align: left;">Level</th>
+                                    <th style="padding: 12px 16px; text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tutorials.map(t => `
+                                    <tr style="border-bottom: 1px solid #e2e8f0; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+                                        <td style="padding: 10px 16px;">${t.id}</td>
+                                        <td style="padding: 10px 16px;">${t.title}</td>
+                                        <td style="padding: 10px 16px;"><span style="background: var(--primary-light); color: var(--primary); padding: 2px 12px; border-radius: 20px; font-size: 12px;">${t.category}</span></td>
+                                        <td style="padding: 10px 16px;"><span style="background: ${t.level === 'Pemula' ? '#dcfce7' : t.level === 'Menengah' ? '#fef9c3' : '#fee2e2'}; color: ${t.level === 'Pemula' ? '#166534' : t.level === 'Menengah' ? '#854d0e' : '#991b1b'}; padding: 2px 12px; border-radius: 20px; font-size: 12px;">${t.level}</span></td>
+                                        <td style="padding: 10px 16px; text-align: center;">
+                                            <a href="/tutorial-detail.html?id=${t.id}" target="_blank" style="color: var(--primary); margin-right: 8px;">👁️</a>
+                                            <a href="/admin-add.html?id=${t.id}" style="color: #f59e0b; margin-right: 8px;">✏️</a>
+                                            <button onclick="deleteTutorial(${t.id})" style="background: none; border: none; color: #ef4444; cursor: pointer;">🗑️</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = `
+                    <div style="padding: 40px 20px; text-align: center;">
+                        <p style="color: #dc2626;">❌ Gagal memuat tutorial</p>
+                        <button onclick="location.reload()" class="btn-primary mt-20">Muat Ulang</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // DELETE TUTORIAL
+        // ============================================
+        async function deleteTutorial(id) {
+            if (!confirm(`Yakin hapus tutorial ID ${id}?`)) return;
+            
+            try {
+                const response = await fetch(`/api/admin/tutorials/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('✅ Tutorial berhasil dihapus!');
+                    loadTutorials(); // Refresh
+                } else {
+                    alert('❌ Gagal hapus: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Terjadi kesalahan. Coba lagi.');
+            }
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isAdmin = await checkAdminAccess();
+            if (isAdmin) {
+                loadTutorials();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!-- tutorials.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semua Tutorial - CodePedia</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 40px 0 30px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .breadcrumb a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .filter-bar select,
+        .filter-bar input {
+            padding: 10px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .filter-bar select:focus,
+        .filter-bar input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .filter-bar select {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-bar input {
+            flex: 2;
+            min-width: 200px;
+        }
+
+        /* ===== TOMBOL RESET ===== */
+        .btn-reset {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-reset:hover {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset:active {
+            transform: scale(0.95);
+        }
+
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            padding-bottom: 40px;
+        }
+
+        .tutorial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid #f1f5f9;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        }
+
+        .tutorial-card .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-card .category {
+            font-size: 12px;
+            font-weight: 600;
+            color: #3b82f6;
+            background: #eff6ff;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+
+        .tutorial-card .duration {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .tutorial-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tutorial-card p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tutorial-card .footer-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tutorial-card .level {
+            font-size: 12px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .level-pemula {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .level-menengah {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .level-lanjut {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .tutorial-card .read-link {
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .no-result {
+            display: none;
+            text-align: center;
+            padding: 40px 0;
+            color: #94a3b8;
+        }
+
+        .no-result .btn-primary {
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 24px 0;
+            margin-top: 40px;
+            border-radius: 30px 30px 0 0;
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .filter-bar {
+                gap: 8px;
+            }
+
+            .filter-bar select,
+            .filter-bar input {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .btn-reset {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .tutorial-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .filter-bar select {
+                min-width: 100%;
+                flex: 1 1 100%;
+            }
+            
+            .filter-bar input {
+                min-width: 100%;
+                flex: 1 1 100%;
+            }
+            
+            .btn-reset {
+                flex: 1 1 auto;
+                min-width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">Code<span>Pedia</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="navMenu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/tutorials.html" class="active">Tutorial</a></li>
+                <li><a href="/playground.html">Playground</a></li>
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/login.html" class="btn-nav">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HEADER ===== -->
+    <div class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a> <span>/</span> Tutorial
+            </div>
+            <h1>📚 Semua Tutorial</h1>
+            <p>Temukan tutorial sesuai kebutuhanmu</p>
+        </div>
+    </div>
+
+    <!-- ===== FILTER ===== -->
+    <div class="container">
+        <div class="filter-bar">
+            <select id="categoryFilter">
+                <option value="all">Semua Kategori</option>
+                <option value="HTML">HTML</option>
+                <option value="CSS">CSS</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="🔍 Cari tutorial..." />
+            <button id="resetFilterBtn" class="btn-reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- ===== GRID TUTORIAL ===== -->
+    <div class="container">
+        <div id="tutorialGrid" class="tutorial-grid">
+            <div class="text-center" style="grid-column: 1/-1; padding: 40px 0; color: #94a3b8;">
+                <p>⏳ Memuat tutorial...</p>
+            </div>
+        </div>
+        <div id="noResult" class="no-result">
+            <p style="font-size: 18px;">😅 Tidak ada tutorial yang cocok.</p>
+            <button class="btn-primary" onclick="resetFilters()">Reset Filter</button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 CodePedia. Dibangun dengan ❤️ untuk para pembelajar.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('open');
+        }
+
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('open');
+            });
+        });
+
+        // ============================================
+        // VARIABLES
+        // ============================================
+        let allTutorials = [];
+        let searchTimer = null;
+        const grid = document.getElementById('tutorialGrid');
+        const noResult = document.getElementById('noResult');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchInput = document.getElementById('searchInput');
+
+        // ============================================
+        // LOAD DATA
+        // ============================================
+        async function loadTutorials() {
+            try {
+                const response = await fetch('/data/tutorials.json');
+                if (!response.ok) throw new Error('Gagal memuat data');
+                allTutorials = await response.json();
+                renderTutorials(allTutorials);
+            } catch (error) {
+                console.error('Error:', error);
+                grid.innerHTML = `
+                    <div class="text-center" style="grid-column: 1/-1; padding: 40px 0;">
+                        <p style="color: #dc2626;">❌ Gagal memuat tutorial. Coba refresh.</p>
+                        <button onclick="location.reload()" class="btn-primary" style="margin-top:16px;display:inline-block;">Muat Ulang</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // RENDER
+        // ============================================
+        function renderTutorials(tutorials) {
+            if (!tutorials || tutorials.length === 0) {
+                grid.innerHTML = '';
+                noResult.style.display = 'block';
+                return;
+            }
+            noResult.style.display = 'none';
+
+            const fragment = document.createDocumentFragment();
+            
+            tutorials.forEach(t => {
+                let levelClass = 'level-pemula';
+                if (t.level === 'Menengah') levelClass = 'level-menengah';
+                if (t.level === 'Lanjut' || t.level === 'Mahir') levelClass = 'level-lanjut';
+
+                const card = document.createElement('a');
+                card.href = `/tutorial-detail.html?id=${t.id}`;
+                card.className = 'tutorial-card';
+                
+                card.innerHTML = `
+                    <div class="meta">
+                        <span class="category">${t.category || 'Umum'}</span>
+                        <span class="duration">⏱️ ${t.duration || '?'} menit</span>
+                    </div>
+                    <h3>${t.title || 'Untitled'}</h3>
+                    <p>${t.description || 'Deskripsi tidak tersedia'}</p>
+                    <div class="footer-card">
+                        <span class="level ${levelClass}">${t.level || 'Umum'}</span>
+                        <span class="read-link">Baca →</span>
+                    </div>
+                `;
+                fragment.appendChild(card);
+            });
+
+            grid.innerHTML = '';
+            grid.appendChild(fragment);
+        }
+
+        // ============================================
+        // FILTER
+        // ============================================
+        function filterTutorials() {
+            const category = categoryFilter.value;
+            const search = searchInput.value.toLowerCase().trim();
+            
+            let filtered = allTutorials;
+            
+            if (category !== 'all') {
+                filtered = filtered.filter(t => t.category === category);
+            }
+            if (search) {
+                filtered = filtered.filter(t => 
+                    t.title?.toLowerCase().includes(search) || 
+                    t.description?.toLowerCase().includes(search)
+                );
+            }
+            
+            renderTutorials(filtered);
+        }
+
+        function resetFilters() {
+            categoryFilter.value = 'all';
+            searchInput.value = '';
+            filterTutorials();
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        categoryFilter.addEventListener('change', filterTutorials);
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(filterTutorials, 300);
+        });
+
+        document.getElementById('resetFilterBtn').addEventListener('click', resetFilters);
+
+        // ============================================
+        // URL PARAMS
+        // ============================================
+        function checkUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            const category = params.get('category');
+            if (category) {
+                const option = categoryFilter.querySelector(`option[value="${category}"]`);
+                if (option) {
+                    categoryFilter.value = category;
+                    filterTutorials();
+                }
+            }
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTutorials();
+            checkUrlParams();
+        });
+    </script>
+</body>
+</html>
