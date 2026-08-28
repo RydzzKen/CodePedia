@@ -11,7 +11,7 @@ Website tutorial coding gratis dengan HTML, CSS, JavaScript, Python, dan lainnya
 - 🔐 Login & Register dengan session
 - 📱 Responsive di HP & Desktop
 
-- STRUCTURE FOLDER
+- ```STRUCTURE FOLDER
 - codepedia/
 ├── package.json
 ├── package-lock.json
