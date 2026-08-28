@@ -11,6 +11,44 @@ Website tutorial coding gratis dengan HTML, CSS, JavaScript, Python, dan lainnya
 - 🔐 Login & Register dengan session
 - 📱 Responsive di HP & Desktop
 
+- STRUCTURE FOLDER
+- codepedia/
+├── package.json
+├── package-lock.json
+├── server.js
+├── README.md
+│
+├── index.html
+├── tutorials.html
+├── tutorial-detail.html
+├── login.html
+├── register.html
+├── dashboard.html
+├── playground.html
+├── admin.html
+├── admin-tutorials.html
+├── admin-add.html
+│
+├── css/
+│   ├── style.css
+│   └── responsive.css
+│
+├── js/
+│   ├── auth.js
+│   ├── main.js
+│   ├── playground.js
+│   └── router.js
+│
+├── data/
+│   ├── users.json
+│   ├── tutorials.json
+│   ├── progress.json
+│   └── activity.json
+│
+├── sessions/ 
+│
+└── node_modules/
+
 ## 🚀 Cara Install & Jalankan
 
 ```bash
